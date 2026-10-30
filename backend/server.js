@@ -37,7 +37,12 @@ app.use(
         return callback(null, true);
       }
 
-      // Also allow render.com preview/production domains if configured
+      // Also allow any render.com preview or production static site
+      if (origin.endsWith('.onrender.com')) {
+        return callback(null, true);
+      }
+
+      // In development fallback
       if (!isProduction) {
         return callback(null, true);
       }

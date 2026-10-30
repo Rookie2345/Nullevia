@@ -8,7 +8,7 @@
 
 (function () {
   // Set your deployed Render backend URL here once created:
-  const PRODUCTION_API_URL = ''; // e.g. 'https://nullevia-api.onrender.com'
+  const PRODUCTION_API_URL = 'https://nullevia-backend.onrender.com';
 
   const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
