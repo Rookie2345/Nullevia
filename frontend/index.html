@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NULLEVIA — Museum of Things That Never Existed</title>
+  <meta name="description" content="Discover what reality forgot. An extraordinary digital museum exhibiting artifacts, impossible inventions, lost civilizations, and archives from alternate timelines.">
+  
+  <!-- Centralized API Configuration Meta Tag (Optional override for production) -->
+  <!-- <meta name="nullevia-api-url" content="https://your-backend.onrender.com"> -->
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Favicon placeholder (SVG) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏛️</text></svg>">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrapper">
+        <a href="index.html" class="brand-logo">
+          NULLE<span class="gold">VIA</span>
+        </a>
+        <span class="brand-tagline">Museum of Things That Never Existed</span>
+      </div>
+
+      <nav class="main-nav">
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Entrance</a></li>
+          <li><a href="exhibitions.html">Exhibitions</a></li>
+          <li><a href="discover.html">Discover</a></li>
+          <li><a href="mysteries.html">Mysteries</a></li>
+          <li><a href="submit.html">Submit</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+
+        <!-- Resilient Archive Uplink Badge -->
+        <div id="uplink-badge" class="uplink-badge" title="Archive Uplink Status">
+          <span id="uplink-dot" class="status-dot"></span>
+          <span id="uplink-text">Archive Uplink: Connecting...</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section">
+      <div class="container">
+        <span class="hero-pretitle">Institutional Archive &bull; Classification Null</span>
+        <h1 class="hero-title">
+          Discover what <span class="highlight">reality forgot</span>.
+        </h1>
+        <p class="hero-lead">
+          Step beyond the threshold of orthodox history. Explore impossibly preserved relics, extinct universal constants, and artifacts recovered from alternate realities.
+        </p>
+        <div class="hero-actions">
+          <button id="btn-enter-museum" class="btn btn-primary">
+            Enter the Museum
+          </button>
+          <a href="exhibitions.html" class="btn btn-secondary">
+            Browse Six Collections
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Specimen Display Case -->
+    <section id="featured-showcase-section" class="container">
+      <div class="section-header">
+        <span class="section-tag">Daily Observation Showcase</span>
+        <h2 class="section-title">Specimen of the Day</h2>
+      </div>
+
+      <div id="featured-specimen-container" class="featured-showcase">
+        <!-- Specimen Pedestal Box -->
+        <div class="display-pedestal">
+          <span id="specimen-id-tag" class="specimen-tag">NUL-001</span>
+          <div class="pedestal-relic-icon">&#10022;</div>
+        </div>
+
+        <!-- Specimen Curatorial Information -->
+        <div class="specimen-details">
+          <span id="specimen-classification" class="specimen-classification">Impossible Inventions</span>
+          <h3 id="specimen-title" class="specimen-title">The Chronos Seed</h3>
+          
+          <div class="specimen-meta-grid">
+            <div class="meta-item">
+              <span class="meta-label">Origin Epoch</span>
+              <span id="specimen-era" class="meta-val">Pre-Singularity Epoch IV</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Provenance</span>
+              <span id="specimen-origin" class="meta-val">Vaults of Oakhaven</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Material Composition</span>
+              <span id="specimen-material" class="meta-val">Crystallized Tachyon Core</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Containment Site</span>
+              <span id="specimen-location" class="meta-val">Temporal Rift Sector 7G</span>
+            </div>
+          </div>
+
+          <p id="specimen-description" class="specimen-description">
+            An impossible relic that indefinitely anchors a single cubic centimeter of space to 0.003 seconds before the collapse of its origin reality.
+          </p>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <a href="artifact.html?id=NUL-001" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.6rem 1.4rem;">
+              Inspect Museum Record &rarr;
+            </a>
+            <span id="specimen-source-tag" style="font-size: 0.72rem; color: var(--text-muted); font-family: monospace;">
+              Instant Verified Archive
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Six Collections Section -->
+    <section class="collections-section container">
+      <div class="section-header">
+        <span class="section-tag">Curated Vaults</span>
+        <h2 class="section-title">The Six Museum Collections</h2>
+      </div>
+
+      <div id="collections-grid" class="collections-grid">
+        <!-- Populated dynamically by main.js with fallback support -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Institutional Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="brand-logo" style="margin-bottom: 0.5rem; font-size: 1.3rem;">
+            NULLE<span class="gold">VIA</span>
+          </div>
+          <p style="max-width: 380px; font-size: 0.82rem; color: var(--text-muted);">
+            Dedicated to the cataloguing, preservation, and study of things that never existed in our timeline.
+          </p>
+        </div>
+
+        <!-- Institutional Fictional Disclaimer -->
+        <div class="footer-disclaimer-box">
+          <strong>Curatorial & Fictional Disclaimer</strong>
+          NULLEVIA is an imaginative digital museum institution. All specimens, civilizations, chronicles, and historical anomalies catalogued herein are works of speculative fiction created for artistic and narrative exploration. None are presented as empirical historical facts.
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 NULLEVIA Museum Archive. All fictional rights reserved.</div>
+        <div>Designed with architectural permanence &bull; Powered by Render &amp; Neon</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Configuration, Resilient API Client, and UI Logic -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
