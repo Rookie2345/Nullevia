@@ -118,9 +118,23 @@
     }
   }
 
+  /**
+   * Get Artifact by Identifier (e.g. 'NUL-001')
+   */
+  async function getArtifactById(id) {
+    try {
+      const res = await safeFetch(`/api/artifacts/${encodeURIComponent(id)}`, {}, 6000);
+      return res; // returns { success: true, source: 'database' | 'fallback_cache', data: {...} }
+    } catch (err) {
+      console.warn(`[Nullevia API] Artifact fetch error for ${id}:`, err.message);
+      return null;
+    }
+  }
+
   window.NulleviaAPI = {
     checkHealth,
     getFeaturedArtifact,
+    getArtifactById,
     getCollections,
     getStatus: () => ({ ...currentUplinkState }),
     onStatusChange: (callback) => {

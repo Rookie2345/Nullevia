@@ -199,17 +199,8 @@ function escapeHtml(str) {
 }
 
 /**
- * 4. Interactive Navigation & Smooth Scroll
+ * 4. Interactive Navigation
  */
 function initInteractions() {
-  const enterBtn = document.getElementById('btn-enter-museum');
-  if (enterBtn) {
-    enterBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = document.getElementById('featured-showcase-section');
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  }
+  // Navigation elements
 }

@@ -82,6 +82,17 @@ async function initDatabase() {
         console.log('\x1b[32m[Nullevia DB Schema]\x1b[0m Schema verified and initial seed applied successfully.');
       }
 
+      // 3. Run incremental migrations
+      const migrationsDir = path.join(__dirname, 'migrations');
+      if (fs.existsSync(migrationsDir)) {
+        const migrationFiles = fs.readdirSync(migrationsDir).filter(f => f.endsWith('.sql')).sort();
+        for (const file of migrationFiles) {
+          const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
+          await client.query(sql);
+          console.log(`\x1b[32m[Nullevia DB Migration]\x1b[0m Applied migration: ${file}`);
+        }
+      }
+
       return true;
     } finally {
       client.release();

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual 3D Museum — NULLEVIA</title>
+  <meta name="description" content="Explore NULLEVIA in an immersive first-person 3D digital museum environment.">
+  
+  <link rel="stylesheet" href="css/museum.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏛️</text></svg>">
+</head>
+<body>
+
+  <!-- WebGL Render Viewport -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Central Reticle / Aiming Crosshair -->
+  <div id="reticle"></div>
+
+  <!-- HUD Layer -->
+  <div id="hud-overlay">
+    <!-- Top Bar -->
+    <header class="hud-header">
+      <div class="hud-brand">
+        <a href="index.html" class="hud-brand-title" style="text-decoration: none;">
+          NULLE<span>VIA</span>
+        </a>
+        <span class="hud-zone-pill">Zone: Central Grand Hall</span>
+      </div>
+
+      <div class="hud-controls-bar">
+        <button id="btn-graphics" class="hud-btn">Graphics: MEDIUM</button>
+        <a href="index.html" class="hud-btn" style="text-decoration: none;">Exit to Lobby</a>
+      </div>
+    </header>
+
+    <!-- Graphics Presets Dropdown Menu -->
+    <div id="graphics-dropdown" class="graphics-dropdown">
+      <div class="graphics-option" data-preset="low">
+        <span>Low (Max FPS / Intel HD 520)</span>
+      </div>
+      <div class="graphics-option selected" data-preset="medium">
+        <span>Medium (Default Balanced)</span>
+      </div>
+      <div class="graphics-option" data-preset="high">
+        <span>High (Enhanced Depth)</span>
+      </div>
+    </div>
+
+    <!-- Proximity Interaction Toast Prompt -->
+    <div id="interaction-prompt">
+      <div class="prompt-key">E</div>
+      <span id="prompt-label" class="prompt-label">Inspect Specimen</span>
+    </div>
+
+    <!-- Bottom Controls Guide -->
+    <footer class="hud-footer">
+      <div class="hud-keys-guide">
+        <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move</span>
+        <span><kbd>Shift</kbd> Sprint</span>
+        <span><kbd>Mouse</kbd> Look</span>
+        <span><kbd>E</kbd> Inspect</span>
+        <span><kbd>ESC</kbd> Release Cursor</span>
+      </div>
+      <div style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">
+        NULLEVIA Virtual Engine v1.0
+      </div>
+    </footer>
+  </div>
+
+  <!-- Start / Pause Click-to-Play Modal Overlay -->
+  <div id="click-to-play-overlay">
+    <div class="play-modal">
+      <h1>NULLE<span>VIA</span></h1>
+      <p class="play-tagline">Central Grand Hall &bull; Virtual Exploration</p>
+      
+      <div class="play-instructions">
+        <div>
+          <strong>Controls</strong>
+          <p><kbd>W A S D</kbd> — Walk around</p>
+          <p><kbd>Shift</kbd> — Sprint</p>
+          <p><kbd>Mouse</kbd> — Camera view</p>
+        </div>
+        <div>
+          <strong>Exhibition</strong>
+          <p><kbd>E</kbd> — Inspect artifacts</p>
+          <p><kbd>ESC</kbd> — Pause / Menu</p>
+          <p>Visible 3D Robotic Hands</p>
+        </div>
+      </div>
+
+      <button class="btn-enter-3d">
+        Click Anywhere to Enter Hall
+      </button>
+    </div>
+  </div>
+
+  <!-- Curatorial Archive Dossier Modal (Sliding Inspection Drawer) -->
+  <aside id="artifact-dossier-modal">
+    <div class="dossier-header">
+      <div>
+        <span id="dossier-id" class="dossier-id-badge">NUL-001</span>
+        <h2 id="dossier-title" class="dossier-title">The Chronos Seed</h2>
+      </div>
+      <button id="dossier-close-btn" class="dossier-close-btn" title="Close Archive Record (ESC)">&times;</button>
+    </div>
+
+    <div class="dossier-meta-grid">
+      <div class="dossier-meta-item">
+        <span class="label">Classification</span>
+        <span id="dossier-category" class="val">Temporal Specimen</span>
+      </div>
+      <div class="dossier-meta-item">
+        <span class="label">Origin Epoch</span>
+        <span id="dossier-era" class="val">Pre-Singularity Epoch IV</span>
+      </div>
+      <div class="dossier-meta-item">
+        <span class="label">Provenance</span>
+        <span id="dossier-origin" class="val">Vaults of Oakhaven</span>
+      </div>
+      <div class="dossier-meta-item">
+        <span class="label">Material</span>
+        <span id="dossier-material" class="val">Crystallized Tachyon</span>
+      </div>
+      <div class="dossier-meta-item" style="grid-column: span 2;">
+        <span class="label">Containment Location</span>
+        <span id="dossier-location" class="val">Sector 7G</span>
+      </div>
+    </div>
+
+    <div class="dossier-section">
+      <h4>Specimen Description</h4>
+      <p id="dossier-desc">...</p>
+    </div>
+
+    <div class="dossier-section">
+      <h4>Historical Chronicle</h4>
+      <p id="dossier-history">...</p>
+    </div>
+
+    <div class="dossier-section">
+      <h4>Discovery Story</h4>
+      <p id="dossier-discovery">...</p>
+    </div>
+
+    <div class="dossier-section">
+      <h4>Curatorial Mystery</h4>
+      <p id="dossier-mystery">...</p>
+    </div>
+
+    <div class="dossier-source-tag">
+      <span id="dossier-source">Source: Verified Neon PostgreSQL Record</span>
+      <span>[ESC to Close]</span>
+    </div>
+  </aside>
+
+  <!-- Three.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Centralized API Configuration & Client -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+
+  <!-- Modular 3D Museum Architecture -->
+  <script src="js/museum/engine.js"></script>
+  <script src="js/museum/world.js"></script>
+  <script src="js/museum/exhibits.js"></script>
+  <script src="js/museum/player.js"></script>
+  <script src="js/museum/ui.js"></script>
+  <script src="js/museum/main.js"></script>
+</body>
+</html>
