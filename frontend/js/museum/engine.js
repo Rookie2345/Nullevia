@@ -20,14 +20,15 @@ window.MuseumEngine = (function () {
     scene.background = new THREE.Color(0x0a0d14);
     scene.fog = new THREE.FogExp2(0x0a0d14, 0.015);
 
-    // 2. Camera (First-person, 65 deg FOV)
+    // 2. Camera (First-person, 65 deg FOV, near plane 0.05 to prevent hand clipping)
     camera = new THREE.PerspectiveCamera(
       65,
       window.innerWidth / window.innerHeight,
-      0.1,
-      120
+      0.05,
+      140
     );
     camera.position.set(0, 1.7, 10); // Start at entrance threshold facing the rotunda
+    scene.add(camera); // CRITICAL: Ensures children attached to camera (3D hands) are rendered
 
     // 3. WebGL Renderer
     renderer = new THREE.WebGLRenderer({
@@ -38,7 +39,7 @@ window.MuseumEngine = (function () {
 
     renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.22;
 
     // 4. Set Initial Graphics Preset (Medium)
     applyPreset('medium');

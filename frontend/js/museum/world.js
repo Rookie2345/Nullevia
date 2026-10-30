@@ -1,12 +1,13 @@
 /**
- * NULLEVIA Central Grand Hall World Architecture
+ * NULLEVIA Central Grand Hall — Monumental Architectural World
  * 
- * Faithfully constructs the 3D museum rotunda matching the reference image:
- * - Soaring intersecting cathedral arches with embedded glowing cyan light channels
- * - Monumental circular skylight dome with radial iron tracery
- * - Tall carved stone pillars engraved with glowing cyan glyphs
- * - Polished concentric stone floor with radial inlay patterns
- * - Curved balustrades and portals to the six exhibition wings
+ * Inspired by the Cathedral of Light reference architecture:
+ * - Double-tier colonnade with 12 fluted pillars & Corinthian capitals
+ * - Sweeping mezzanine balcony with bronze balustrades & warm under-glow
+ * - Fan-vaulted Gothic arched bays with multi-layered ribs & window tracery
+ * - Monumental Rosette Skylight Dome with concentric radial metal framework
+ * - Sunken amphitheater plaza with subtle edge lighting
+ * - Polished obsidian & ivory marble floor with geometric bronze inlays
  */
 
 window.MuseumWorld = (function () {
@@ -16,171 +17,468 @@ window.MuseumWorld = (function () {
   function build(targetScene) {
     scene = targetScene;
 
-    // 1. Procedural Textures & Materials
+    // 1. Procedural PBR Textures & Materials
     const materials = createMaterials();
 
-    // 2. Polished Rotunda Floor
+    // 2. Polished Marble Floor & Sunken Plaza
     buildFloor(materials);
 
-    // 3. Monumental Rotunda Wall & Arched Wing Portals
-    buildRotundaWalls(materials);
+    // 3. Ground Colonnade (12 Monumental Fluted Pillars)
+    buildGroundColonnade(materials);
 
-    // 4. Cathedral Intersecting Arches with Cyan Light Channels
-    buildCathedralArches(materials);
+    // 4. Mezzanine Balcony & Curved Balustrades
+    buildMezzanineBalcony(materials);
 
-    // 5. Grand Circular Skylight Dome
-    buildSkylightDome(materials);
+    // 5. Fan-Vaulted Arched Bays & Upper Arcade
+    buildFanVaultedArcade(materials);
 
-    // 6. Monolithic Pillars with Glowing Runes
-    buildPillars(materials);
+    // 6. Monumental Rosette Skylight Dome
+    buildRosetteSkylightDome(materials);
 
-    // 7. Balustrades & Elevated Entrance Area
-    buildEntranceTerrace(materials);
+    // 7. Outer Wall Enclosure, Niches & Wing Portals
+    buildOuterWallsAndPortals(materials);
 
-    console.log(`[MuseumWorld] Central Hall constructed with ${colliders.length} collision zones.`);
+    console.log(`[MuseumWorld] Monumental Grand Hall constructed with ${colliders.length} collision zones.`);
     return colliders;
   }
 
+  /**
+   * High-quality procedural textures and PBR materials optimized for Intel HD 520
+   */
   function createMaterials() {
-    // 1. Procedural Rune Canvas Texture for Pillars
-    const runeCanvas = document.createElement('canvas');
-    runeCanvas.width = 512;
-    runeCanvas.height = 1024;
-    const ctx = runeCanvas.getContext('2d');
-
-    // Stone background
-    ctx.fillStyle = '#1e1c19';
-    ctx.fillRect(0, 0, 512, 1024);
-
-    // Stone grain noise
-    for (let i = 0; i < 4000; i++) {
-      ctx.fillStyle = Math.random() > 0.5 ? '#282522' : '#141210';
-      ctx.fillRect(Math.random() * 512, Math.random() * 1024, 2, 2);
-    }
-
-    // Vertical glowing cyan runes
-    ctx.strokeStyle = '#69c7d5';
-    ctx.lineWidth = 4;
-    ctx.shadowColor = '#69c7d5';
-    ctx.shadowBlur = 12;
-
-    const glyphs = ['ᚦ', 'ᛃ', 'ᛈ', 'ᛉ', 'ᛋ', 'ᛏ', 'ᛒ', 'ᛖ', 'ᛗ', 'ᛚ', 'ᛜ', 'ᛞ', 'ᛟ', '⟁', '⏣', '⎔', '◈', '✦', '✧', '⌖'];
-    ctx.font = '38px serif';
-    ctx.fillStyle = '#a6f3ff';
-    ctx.textAlign = 'center';
-
-    for (let col = 1; col <= 2; col++) {
-      const x = col === 1 ? 180 : 332;
-      for (let y = 140; y < 920; y += 75) {
-        const glyph = glyphs[Math.floor(Math.random() * glyphs.length)];
-        ctx.fillText(glyph, x, y);
-      }
-    }
-
-    const runeTexture = new THREE.CanvasTexture(runeCanvas);
-    runeTexture.wrapS = THREE.RepeatWrapping;
-    runeTexture.wrapT = THREE.RepeatWrapping;
-
-    // Floor Canvas Texture (Concentric Rings & Polished Marble Tiles)
+    // 1. Luxury Polished Marble Floor Canvas Texture
     const floorCanvas = document.createElement('canvas');
     floorCanvas.width = 1024;
     floorCanvas.height = 1024;
     const fCtx = floorCanvas.getContext('2d');
 
-    fCtx.fillStyle = '#161920';
+    // Dark obsidian/navy marble base
+    fCtx.fillStyle = '#10141c';
     fCtx.fillRect(0, 0, 1024, 1024);
 
-    // Circular marble inlays
-    fCtx.lineWidth = 14;
-    fCtx.strokeStyle = '#273142';
+    // Subtle natural marble grain/veining
+    for (let i = 0; i < 2800; i++) {
+      fCtx.fillStyle = Math.random() > 0.6 ? '#1b2330' : '#0c0f16';
+      fCtx.fillRect(Math.random() * 1024, Math.random() * 1024, 3, 3);
+    }
+
+    // Concentric geometric bronze & ivory inlay bands
+    fCtx.lineWidth = 10;
+    fCtx.strokeStyle = '#252f40';
     fCtx.beginPath();
-    fCtx.arc(512, 512, 420, 0, Math.PI * 2);
+    fCtx.arc(512, 512, 480, 0, Math.PI * 2);
     fCtx.stroke();
 
-    fCtx.lineWidth = 8;
-    fCtx.strokeStyle = '#d4b477';
+    fCtx.lineWidth = 6;
+    fCtx.strokeStyle = '#d4b477'; // Antique gold
+    fCtx.beginPath();
+    fCtx.arc(512, 512, 430, 0, Math.PI * 2);
+    fCtx.stroke();
+
+    fCtx.lineWidth = 14;
+    fCtx.strokeStyle = '#1a222e';
     fCtx.beginPath();
     fCtx.arc(512, 512, 340, 0, Math.PI * 2);
     fCtx.stroke();
 
-    fCtx.strokeStyle = '#1d2533';
-    fCtx.lineWidth = 12;
+    fCtx.lineWidth = 5;
+    fCtx.strokeStyle = '#d4b477';
     fCtx.beginPath();
-    fCtx.arc(512, 512, 220, 0, Math.PI * 2);
+    fCtx.arc(512, 512, 240, 0, Math.PI * 2);
     fCtx.stroke();
 
-    const floorTexture = new THREE.CanvasTexture(floorCanvas);
+    // Central 12-point geometric rosette star
+    fCtx.strokeStyle = '#69c7d5';
+    fCtx.lineWidth = 2.5;
+    for (let i = 0; i < 12; i++) {
+      const ang = (i * Math.PI * 2) / 12;
+      fCtx.beginPath();
+      fCtx.moveTo(512, 512);
+      fCtx.lineTo(512 + Math.cos(ang) * 235, 512 + Math.sin(ang) * 235);
+      fCtx.stroke();
+    }
+
+    const floorTex = new THREE.CanvasTexture(floorCanvas);
+
+    // 2. Fluted Stone Pillar Canvas Texture
+    const flutedCanvas = document.createElement('canvas');
+    flutedCanvas.width = 512;
+    flutedCanvas.height = 512;
+    const pCtx = flutedCanvas.getContext('2d');
+    pCtx.fillStyle = '#3a332a';
+    pCtx.fillRect(0, 0, 512, 512);
+
+    // Vertical fluting shadows
+    const fluteCount = 20;
+    const fluteWidth = 512 / fluteCount;
+    for (let i = 0; i < fluteCount; i++) {
+      const x = i * fluteWidth;
+      const grad = pCtx.createLinearGradient(x, 0, x + fluteWidth, 0);
+      grad.addColorStop(0, '#241f19');
+      grad.addColorStop(0.5, '#4f463a');
+      grad.addColorStop(1, '#241f19');
+      pCtx.fillStyle = grad;
+      pCtx.fillRect(x + 2, 0, fluteWidth - 4, 512);
+    }
+    const flutedTex = new THREE.CanvasTexture(flutedCanvas);
+    flutedTex.wrapS = THREE.RepeatWrapping;
+    flutedTex.wrapT = THREE.RepeatWrapping;
 
     return {
+      // Warm carved stone
       stone: new THREE.MeshStandardMaterial({
-        color: 0x363028,
-        roughness: 0.75,
+        color: 0x3d352b,
+        roughness: 0.72,
         metalness: 0.1,
       }),
-      stoneIvory: new THREE.MeshStandardMaterial({
-        color: 0x8a8275,
-        roughness: 0.65,
+      // Ivory marble moldings & capitals
+      ivoryMarble: new THREE.MeshStandardMaterial({
+        color: 0xd8d0c2,
+        roughness: 0.45,
         metalness: 0.15,
       }),
-      woodDark: new THREE.MeshStandardMaterial({
-        color: 0x1c140d,
-        roughness: 0.8,
-        metalness: 0.05,
+      // Fluted column stone
+      flutedStone: new THREE.MeshStandardMaterial({
+        map: flutedTex,
+        roughness: 0.65,
+        metalness: 0.12,
       }),
+      // Dark coffered wood
+      darkWood: new THREE.MeshStandardMaterial({
+        color: 0x18120c,
+        roughness: 0.78,
+        metalness: 0.08,
+      }),
+      // Antique bronze filigree & railings
       bronze: new THREE.MeshStandardMaterial({
         color: 0xd4b477,
-        roughness: 0.35,
-        metalness: 0.75,
+        roughness: 0.32,
+        metalness: 0.78,
       }),
-      runeStone: new THREE.MeshStandardMaterial({
-        map: runeTexture,
-        roughness: 0.6,
+      // Polished luxury floor (balanced specular, no expensive real-time render mirrors)
+      polishedFloor: new THREE.MeshStandardMaterial({
+        map: floorTex,
+        roughness: 0.22,
         metalness: 0.2,
       }),
-      floor: new THREE.MeshStandardMaterial({
-        map: floorTexture,
-        roughness: 0.25, // Sleek polished reflection
-        metalness: 0.15,
-      }),
+      // Glowing cyan architectural accents
       cyanGlow: new THREE.MeshBasicMaterial({
         color: 0x69c7d5,
       }),
-      glass: new THREE.MeshPhysicalMaterial({
+      // Subtle step neon edge glow
+      stepGlow: new THREE.MeshBasicMaterial({
+        color: 0x4a7a8c, // Muted cyan-teal, keeping purple/neon extremely subtle
+      }),
+      // Translucent dome glass
+      skylightGlass: new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
         transparent: true,
-        opacity: 0.35,
+        opacity: 0.4,
         roughness: 0.1,
         metalness: 0.1,
-        transmission: 0.9,
+        transmission: 0.88,
         ior: 1.5,
+      }),
+      // Window panes behind arcade
+      windowGlass: new THREE.MeshBasicMaterial({
+        color: 0xbbddee,
+        transparent: true,
+        opacity: 0.3,
       }),
     };
   }
 
+  /**
+   * Polished Marble Floor & Sunken Plaza Steps
+   */
   function buildFloor(mat) {
-    const floorGeo = new THREE.CylinderGeometry(15, 15, 0.4, 48);
-    const floor = new THREE.Mesh(floorGeo, mat.floor);
-    floor.position.y = -0.2;
-    floor.receiveShadow = true;
-    scene.add(floor);
+    // 1. Main Outer Gallery Floor (y = 0.45m, radius 17m)
+    const outerFloorGeo = new THREE.CylinderGeometry(17, 17, 0.4, 48);
+    const outerFloor = new THREE.Mesh(outerFloorGeo, mat.stone);
+    outerFloor.position.y = -0.2;
+    outerFloor.receiveShadow = true;
+    scene.add(outerFloor);
+
+    // 2. Sunken Central Plaza (radius 11.2m, y = 0.0m)
+    const plazaGeo = new THREE.CylinderGeometry(11.2, 11.2, 0.2, 48);
+    const plaza = new THREE.Mesh(plazaGeo, mat.polishedFloor);
+    plaza.position.y = 0.0;
+    plaza.receiveShadow = true;
+    scene.add(plaza);
+
+    // 3. Three Curved Amphitheater Steps with subtle edge lighting
+    const stepRadii = [11.2, 11.8, 12.4];
+    stepRadii.forEach((r, idx) => {
+      const stepY = (3 - idx) * 0.12;
+
+      // Stone step ring
+      const stepGeo = new THREE.TorusGeometry(r, 0.07, 8, 48);
+      stepGeo.rotateX(Math.PI / 2);
+      const step = new THREE.Mesh(stepGeo, mat.ivoryMarble);
+      step.position.y = stepY;
+      scene.add(step);
+
+      // Subtle step neon edge glow strip under the lip
+      const glowGeo = new THREE.TorusGeometry(r - 0.05, 0.02, 6, 48);
+      glowGeo.rotateX(Math.PI / 2);
+      const glow = new THREE.Mesh(glowGeo, mat.stepGlow);
+      glow.position.y = stepY - 0.03;
+      scene.add(glow);
+    });
   }
 
-  function buildRotundaWalls(mat) {
-    // Outer perimeter cylinder with wall thickness
-    const wallGeo = new THREE.CylinderGeometry(15, 15, 14, 48, 1, true);
+  /**
+   * Ground Colonnade: 12 Monumental Fluted Pillars with Corinthian capitals & bases
+   */
+  function buildGroundColonnade(mat) {
+    const pillarCount = 12;
+    const colonnadeRadius = 13.8;
+
+    for (let i = 0; i < pillarCount; i++) {
+      const ang = (i * Math.PI * 2) / pillarCount;
+      const x = Math.sin(ang) * colonnadeRadius;
+      const z = Math.cos(ang) * colonnadeRadius;
+
+      const columnGroup = new THREE.Group();
+      columnGroup.position.set(x, 0, z);
+
+      // 1. Tiered Stepped Plinth Base
+      const plinthBaseGeo = new THREE.BoxGeometry(1.6, 0.4, 1.6);
+      const plinthBase = new THREE.Mesh(plinthBaseGeo, mat.stone);
+      plinthBase.position.y = 0.2;
+      plinthBase.castShadow = true;
+      plinthBase.receiveShadow = true;
+      columnGroup.add(plinthBase);
+
+      const torusBaseGeo = new THREE.TorusGeometry(0.68, 0.12, 10, 24);
+      torusBaseGeo.rotateX(Math.PI / 2);
+      const torusBase = new THREE.Mesh(torusBaseGeo, mat.bronze);
+      torusBase.position.y = 0.5;
+      columnGroup.add(torusBase);
+
+      // 2. Fluted Column Shaft
+      const shaftGeo = new THREE.CylinderGeometry(0.52, 0.58, 6.4, 24);
+      const shaft = new THREE.Mesh(shaftGeo, mat.flutedStone);
+      shaft.position.y = 3.7;
+      shaft.castShadow = true;
+      shaft.receiveShadow = true;
+      columnGroup.add(shaft);
+
+      // 3. Corinthian / Classical Capital
+      const capitalGeo = new THREE.BoxGeometry(1.45, 0.7, 1.45);
+      const capital = new THREE.Mesh(capitalGeo, mat.ivoryMarble);
+      capital.position.y = 7.15;
+      columnGroup.add(capital);
+
+      const capMoldingGeo = new THREE.TorusGeometry(0.65, 0.08, 8, 20);
+      capMoldingGeo.rotateX(Math.PI / 2);
+      const capMolding = new THREE.Mesh(capMoldingGeo, mat.bronze);
+      capMolding.position.y = 6.8;
+      columnGroup.add(capMolding);
+
+      scene.add(columnGroup);
+
+      // Solid cylinder collision box for every column
+      colliders.push({
+        type: 'cylinder',
+        x: x,
+        z: z,
+        radius: 0.85,
+      });
+    }
+  }
+
+  /**
+   * Sweeping Mezzanine Balcony Ring & Curved Bronze Balustrades
+   */
+  function buildMezzanineBalcony(mat) {
+    const balconyGroup = new THREE.Group();
+    balconyGroup.position.y = 7.5;
+
+    // 1. Balcony Floor Ring (Inner radius 13.5m, Outer radius 17m)
+    const ringShape = new THREE.Shape();
+    ringShape.absarc(0, 0, 17, 0, Math.PI * 2, false);
+    const hole = new THREE.Path();
+    hole.absarc(0, 0, 13.5, 0, Math.PI * 2, true);
+    ringShape.holes.push(hole);
+
+    const extrudeSettings = { depth: 0.5, bevelEnabled: false, curveSegments: 48 };
+    const ringGeo = new THREE.ExtrudeGeometry(ringShape, extrudeSettings);
+    ringGeo.rotateX(Math.PI / 2);
+    const balconyFloor = new THREE.Mesh(ringGeo, mat.ivoryMarble);
+    balconyFloor.receiveShadow = true;
+    balconyGroup.add(balconyFloor);
+
+    // 2. Under-balcony Architectural Fascia with warm light trough
+    const fasciaGeo = new THREE.TorusGeometry(13.5, 0.22, 10, 48);
+    fasciaGeo.rotateX(Math.PI / 2);
+    const fascia = new THREE.Mesh(fasciaGeo, mat.bronze);
+    fascia.position.y = -0.3;
+    balconyGroup.add(fascia);
+
+    // Warm under-balcony light strip
+    const underGlowGeo = new THREE.TorusGeometry(13.4, 0.06, 6, 48);
+    underGlowGeo.rotateX(Math.PI / 2);
+    const underGlow = new THREE.Mesh(underGlowGeo, mat.bronze);
+    underGlow.position.y = -0.45;
+    balconyGroup.add(underGlow);
+
+    // 3. Curved Bronze Balustrade Railing along the inner edge
+    const railingGeo = new THREE.TorusGeometry(13.6, 0.06, 8, 48);
+    railingGeo.rotateX(Math.PI / 2);
+    const railing = new THREE.Mesh(railingGeo, mat.bronze);
+    railing.position.y = 0.95;
+    balconyGroup.add(railing);
+
+    // Vertical Balusters
+    const balusterCount = 72;
+    for (let i = 0; i < balusterCount; i++) {
+      const ang = (i * Math.PI * 2) / balusterCount;
+      const bx = Math.sin(ang) * 13.6;
+      const bz = Math.cos(ang) * 13.6;
+
+      const balusterGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.85, 6);
+      const baluster = new THREE.Mesh(balusterGeo, mat.bronze);
+      baluster.position.set(bx, 0.45, bz);
+      balconyGroup.add(baluster);
+    }
+
+    scene.add(balconyGroup);
+  }
+
+  /**
+   * Fan-Vaulted Gothic Arched Bays & Upper Arcade
+   * Multi-layered ribbed vaulting framing the perimeter of the hall
+   */
+  function buildFanVaultedArcade(mat) {
+    const bayCount = 12;
+    const colonnadeRadius = 13.8;
+
+    for (let i = 0; i < bayCount; i++) {
+      const ang1 = (i * Math.PI * 2) / bayCount;
+      const ang2 = ((i + 1) * Math.PI * 2) / bayCount;
+
+      const p1 = new THREE.Vector3(Math.sin(ang1) * colonnadeRadius, 7.5, Math.cos(ang1) * colonnadeRadius);
+      const p2 = new THREE.Vector3(Math.sin(ang2) * colonnadeRadius, 7.5, Math.cos(ang2) * colonnadeRadius);
+      const mid = new THREE.Vector3().addVectors(p1, p2).multiplyScalar(0.5);
+      const apex = mid.clone().setY(15.2);
+
+      // 1. Monumental Outer Carved Stone Arch
+      const archCurve = new THREE.QuadraticBezierCurve3(p1, apex, p2);
+      const archGeo = new THREE.TubeGeometry(archCurve, 24, 0.28, 8, false);
+      const archMesh = new THREE.Mesh(archGeo, mat.ivoryMarble);
+      archMesh.castShadow = true;
+      scene.add(archMesh);
+
+      // 2. Embedded Glowing Cyan Inner Light Channel
+      const glowGeo = new THREE.TubeGeometry(archCurve, 24, 0.07, 6, false);
+      const glowMesh = new THREE.Mesh(glowGeo, mat.cyanGlow);
+      glowMesh.position.y -= 0.12;
+      scene.add(glowMesh);
+
+      // 3. Vaulted Ribs converging into Fan-Vault (Radiating toward dome)
+      const domeBasePoint = new THREE.Vector3(Math.sin((ang1 + ang2) / 2) * 8.5, 18.5, Math.cos((ang1 + ang2) / 2) * 8.5);
+      const fanRib1 = new THREE.QuadraticBezierCurve3(p1, new THREE.Vector3(p1.x * 0.8, 14, p1.z * 0.8), domeBasePoint);
+      const fanRib2 = new THREE.QuadraticBezierCurve3(p2, new THREE.Vector3(p2.x * 0.8, 14, p2.z * 0.8), domeBasePoint);
+
+      const rib1Geo = new THREE.TubeGeometry(fanRib1, 20, 0.12, 6, false);
+      const rib1Mesh = new THREE.Mesh(rib1Geo, mat.bronze);
+      scene.add(rib1Mesh);
+
+      const rib2Geo = new THREE.TubeGeometry(fanRib2, 20, 0.12, 6, false);
+      const rib2Mesh = new THREE.Mesh(rib2Geo, mat.bronze);
+      scene.add(rib2Mesh);
+
+      // 4. Arched Cathedral Window Bay Glass (letting soft daylight through behind arch)
+      const winCurve = new THREE.QuadraticBezierCurve3(
+        p1.clone().multiplyScalar(1.15),
+        apex.clone().multiplyScalar(1.15),
+        p2.clone().multiplyScalar(1.15)
+      );
+      const winGeo = new THREE.TubeGeometry(winCurve, 16, 0.08, 4, false);
+      const winMesh = new THREE.Mesh(winGeo, mat.windowGlass);
+      scene.add(winMesh);
+    }
+  }
+
+  /**
+   * Monumental Rosette Skylight Dome
+   * Centered overhead with concentric radial metal framework & rosette tracery
+   */
+  function buildRosetteSkylightDome(mat) {
+    const domeGroup = new THREE.Group();
+    domeGroup.position.set(0, 18.5, 0);
+
+    const domeRadius = 8.5;
+    const domeHeight = 7.5;
+
+    // 1. Semi-translucent Glass Dome Shell
+    const domeGeo = new THREE.SphereGeometry(domeRadius, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2.1);
+    const domeGlass = new THREE.Mesh(domeGeo, mat.skylightGlass);
+    domeGroup.add(domeGlass);
+
+    // 2. Circular Base Ring
+    const baseRingGeo = new THREE.TorusGeometry(domeRadius, 0.28, 10, 48);
+    baseRingGeo.rotateX(Math.PI / 2);
+    const baseRing = new THREE.Mesh(baseRingGeo, mat.bronze);
+    domeGroup.add(baseRing);
+
+    // 3. Primary 16 Radial Iron Ribs
+    const ribCount = 16;
+    for (let i = 0; i < ribCount; i++) {
+      const ang = (i * Math.PI * 2) / ribCount;
+      const ribCurve = new THREE.QuadraticBezierCurve3(
+        new THREE.Vector3(Math.sin(ang) * domeRadius, 0, Math.cos(ang) * domeRadius),
+        new THREE.Vector3(Math.sin(ang) * 4.8, domeHeight * 0.72, Math.cos(ang) * 4.8),
+        new THREE.Vector3(0, domeHeight, 0)
+      );
+
+      const ribGeo = new THREE.TubeGeometry(ribCurve, 20, 0.09, 6, false);
+      const rib = new THREE.Mesh(ribGeo, mat.bronze);
+      domeGroup.add(rib);
+
+      // Rosette Petal / Gothic Cross-rib (Interlacing tracery)
+      const nextAng = ((i + 1) * Math.PI * 2) / ribCount;
+      const petalMidAng = (ang + nextAng) / 2;
+      const crossCurve = new THREE.QuadraticBezierCurve3(
+        new THREE.Vector3(Math.sin(ang) * (domeRadius * 0.65), domeHeight * 0.42, Math.cos(ang) * (domeRadius * 0.65)),
+        new THREE.Vector3(Math.sin(petalMidAng) * (domeRadius * 0.78), domeHeight * 0.52, Math.cos(petalMidAng) * (domeRadius * 0.78)),
+        new THREE.Vector3(Math.sin(nextAng) * (domeRadius * 0.65), domeHeight * 0.42, Math.cos(nextAng) * (domeRadius * 0.65))
+      );
+      const crossGeo = new THREE.TubeGeometry(crossCurve, 12, 0.05, 4, false);
+      const crossMesh = new THREE.Mesh(crossGeo, mat.bronze);
+      domeGroup.add(crossMesh);
+    }
+
+    // 4. Central Glowing Oculus Ring
+    const oculusGeo = new THREE.TorusGeometry(1.4, 0.16, 8, 24);
+    oculusGeo.rotateX(Math.PI / 2);
+    const oculus = new THREE.Mesh(oculusGeo, mat.bronze);
+    oculus.position.y = domeHeight - 0.15;
+    domeGroup.add(oculus);
+
+    // Glowing Oculus Center Lens
+    const oculusLensGeo = new THREE.CircleGeometry(1.35, 24);
+    oculusLensGeo.rotateX(-Math.PI / 2);
+    const oculusLens = new THREE.Mesh(oculusLensGeo, mat.cyanGlow);
+    oculusLens.position.y = domeHeight - 0.14;
+    domeGroup.add(oculusLens);
+
+    scene.add(domeGroup);
+  }
+
+  /**
+   * Outer Wall Enclosure, Architectural Niches & Six Wing Portals
+   */
+  function buildOuterWallsAndPortals(mat) {
+    // Outer perimeter cylinder wall with warm carved stone
+    const wallGeo = new THREE.CylinderGeometry(17, 17, 24, 48, 1, true);
     const wall = new THREE.Mesh(wallGeo, mat.stone);
-    wall.position.y = 7;
+    wall.position.y = 12;
     wall.receiveShadow = true;
     scene.add(wall);
 
-    // Decorative upper cornice ring
-    const corniceGeo = new THREE.TorusGeometry(14.8, 0.35, 12, 48);
-    corniceGeo.rotateX(Math.PI / 2);
-    const cornice = new THREE.Mesh(corniceGeo, mat.bronze);
-    cornice.position.y = 13.8;
-    scene.add(cornice);
-
-    // Six Arched Portals leading to future exhibition wings
+    // Six Curated Wing Portals leading to future collections
     const wingNames = [
       'Lost Civilizations',
       'Impossible Inventions',
@@ -192,216 +490,55 @@ window.MuseumWorld = (function () {
 
     for (let i = 0; i < 6; i++) {
       const angle = (i * Math.PI * 2) / 6 + Math.PI / 6;
-      const x = Math.sin(angle) * 14.5;
-      const z = Math.cos(angle) * 14.5;
+      const x = Math.sin(angle) * 16.5;
+      const z = Math.cos(angle) * 16.5;
 
       const portalGroup = new THREE.Group();
       portalGroup.position.set(x, 0, z);
       portalGroup.lookAt(0, 0, 0);
 
-      // Portal arch frame
-      const frameGeo = new THREE.BoxGeometry(3.6, 6.2, 0.5);
-      const frame = new THREE.Mesh(frameGeo, mat.stoneIvory);
-      frame.position.y = 3.1;
+      // Grand Portal Archway Frame
+      const frameGeo = new THREE.BoxGeometry(4.2, 7.2, 0.6);
+      const frame = new THREE.Mesh(frameGeo, mat.ivoryMarble);
+      frame.position.y = 3.6;
       portalGroup.add(frame);
 
-      // Inner dark hallway recess
-      const recessGeo = new THREE.BoxGeometry(2.6, 5.2, 1.2);
-      const recess = new THREE.Mesh(recessGeo, mat.woodDark);
-      recess.position.set(0, 2.6, 0.4);
+      // Deep dark corridor recess
+      const recessGeo = new THREE.BoxGeometry(3.2, 6.2, 1.4);
+      const recess = new THREE.Mesh(recessGeo, mat.darkWood);
+      recess.position.set(0, 3.1, 0.5);
       portalGroup.add(recess);
 
-      // Glowing portal cyan arch border
-      const archBorderGeo = new THREE.BoxGeometry(2.8, 0.08, 0.08);
-      const archBorder = new THREE.Mesh(archBorderGeo, mat.cyanGlow);
-      archBorder.position.set(0, 5.2, -0.22);
-      portalGroup.add(archBorder);
+      // Luminous cyan portal trim
+      const borderGeo = new THREE.BoxGeometry(3.4, 0.1, 0.1);
+      const border = new THREE.Mesh(borderGeo, mat.cyanGlow);
+      border.position.set(0, 6.2, -0.28);
+      portalGroup.add(border);
 
-      // Wing Name Plaque
+      // Wing Name Banner Plaque
       const plaqueCanvas = document.createElement('canvas');
       plaqueCanvas.width = 512;
-      plaqueCanvas.height = 96;
+      plaqueCanvas.height = 100;
       const pCtx = plaqueCanvas.getContext('2d');
       pCtx.fillStyle = '#10151f';
-      pCtx.fillRect(0, 0, 512, 96);
+      pCtx.fillRect(0, 0, 512, 100);
       pCtx.strokeStyle = '#d4b477';
       pCtx.lineWidth = 4;
-      pCtx.strokeRect(4, 4, 504, 88);
+      pCtx.strokeRect(4, 4, 504, 92);
       pCtx.font = 'bold 28px serif';
       pCtx.fillStyle = '#e9e2d2';
       pCtx.textAlign = 'center';
-      pCtx.fillText(wingNames[i].toUpperCase(), 256, 56);
+      pCtx.fillText(wingNames[i].toUpperCase(), 256, 58);
 
       const plaqueTex = new THREE.CanvasTexture(plaqueCanvas);
       const plaqueMat = new THREE.MeshBasicMaterial({ map: plaqueTex });
-      const plaqueGeo = new THREE.PlaneGeometry(2.4, 0.45);
+      const plaqueGeo = new THREE.PlaneGeometry(2.8, 0.55);
       const plaque = new THREE.Mesh(plaqueGeo, plaqueMat);
-      plaque.position.set(0, 5.65, -0.26);
+      plaque.position.set(0, 6.6, -0.32);
       plaque.rotation.y = Math.PI;
       portalGroup.add(plaque);
 
       scene.add(portalGroup);
-    }
-  }
-
-  /**
-   * Monumental Cathedral Intersecting Arches
-   * Directly inspired by the reference image with stone ribs and embedded cyan glow channels
-   */
-  function buildCathedralArches(mat) {
-    const archCount = 8;
-    const radius = 14;
-
-    for (let i = 0; i < archCount; i++) {
-      const angle = (i * Math.PI * 2) / archCount;
-      const nextAngle = ((i + 2) * Math.PI * 2) / archCount;
-
-      const archCurve = new THREE.QuadraticBezierCurve3(
-        new THREE.Vector3(Math.sin(angle) * radius, 0, Math.cos(angle) * radius),
-        new THREE.Vector3(0, 22, 0), // Soaring apex near dome
-        new THREE.Vector3(Math.sin(nextAngle) * radius, 0, Math.cos(nextAngle) * radius)
-      );
-
-      // 1. Carved Outer Stone Arch Rib
-      const ribGeo = new THREE.TubeGeometry(archCurve, 32, 0.32, 8, false);
-      const rib = new THREE.Mesh(ribGeo, mat.stoneIvory);
-      rib.castShadow = true;
-      scene.add(rib);
-
-      // 2. Embedded Glowing Cyan Light Channel (Inner neon strip from reference image)
-      const glowGeo = new THREE.TubeGeometry(archCurve, 32, 0.08, 6, false);
-      const glowRib = new THREE.Mesh(glowGeo, mat.cyanGlow);
-      glowRib.position.y -= 0.15; // Slightly recessed under the arch
-      scene.add(glowRib);
-    }
-  }
-
-  /**
-   * Monumental Circular Skylight Dome
-   * Diffuses sunlight through radial iron tracery into the rotunda
-   */
-  function buildSkylightDome(mat) {
-    const domeGroup = new THREE.Group();
-    domeGroup.position.set(0, 16.5, 0);
-
-    // 1. Dome Glass Shell
-    const domeGeo = new THREE.SphereGeometry(6.5, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-    const domeGlass = new THREE.Mesh(domeGeo, mat.glass);
-    domeGroup.add(domeGlass);
-
-    // 2. Radial Iron / Bronze Tracery Ribs
-    const ribs = 12;
-    for (let i = 0; i < ribs; i++) {
-      const ang = (i * Math.PI * 2) / ribs;
-      const ribCurve = new THREE.QuadraticBezierCurve3(
-        new THREE.Vector3(Math.sin(ang) * 6.5, 0, Math.cos(ang) * 6.5),
-        new THREE.Vector3(Math.sin(ang) * 3.5, 4.2, Math.cos(ang) * 3.5),
-        new THREE.Vector3(0, 5.5, 0)
-      );
-      const ribGeo = new THREE.TubeGeometry(ribCurve, 16, 0.08, 6, false);
-      const rib = new THREE.Mesh(ribGeo, mat.bronze);
-      domeGroup.add(rib);
-    }
-
-    // Central Oculus Ring
-    const oculusGeo = new THREE.TorusGeometry(1.2, 0.1, 8, 24);
-    oculusGeo.rotateX(Math.PI / 2);
-    const oculus = new THREE.Mesh(oculusGeo, mat.bronze);
-    oculus.position.y = 5.3;
-    domeGroup.add(oculus);
-
-    scene.add(domeGroup);
-  }
-
-  /**
-   * Tall Carved Stone Pillars with Glowing Vertical Runes
-   */
-  function buildPillars(mat) {
-    const pillarPositions = [
-      { x: -9.5, z: -3.5 },
-      { x: -9.5, z: 3.5 },
-      { x: 9.5, z: -3.5 },
-      { x: 9.5, z: 3.5 },
-      { x: -3.5, z: -9.5 },
-      { x: 3.5, z: -9.5 },
-    ];
-
-    pillarPositions.forEach((pos) => {
-      const pillarGroup = new THREE.Group();
-      pillarGroup.position.set(pos.x, 0, pos.z);
-
-      // Pillar base plinth
-      const baseGeo = new THREE.BoxGeometry(1.6, 1.2, 1.6);
-      const base = new THREE.Mesh(baseGeo, mat.stone);
-      base.position.y = 0.6;
-      base.castShadow = true;
-      base.receiveShadow = true;
-      pillarGroup.add(base);
-
-      // Main pillar shaft with glowing rune texture
-      const shaftGeo = new THREE.CylinderGeometry(0.65, 0.72, 11, 16);
-      const shaft = new THREE.Mesh(shaftGeo, mat.runeStone);
-      shaft.position.y = 6.6;
-      shaft.castShadow = true;
-      shaft.receiveShadow = true;
-      pillarGroup.add(shaft);
-
-      // Pillar Capital
-      const capGeo = new THREE.BoxGeometry(1.5, 0.8, 1.5);
-      const cap = new THREE.Mesh(capGeo, mat.stoneIvory);
-      cap.position.y = 12.4;
-      pillarGroup.add(cap);
-
-      scene.add(pillarGroup);
-
-      // Add cylinder collider
-      colliders.push({
-        type: 'cylinder',
-        x: pos.x,
-        z: pos.z,
-        radius: 0.9,
-      });
-    });
-  }
-
-  /**
-   * Entrance Terrace, Balustrades & Steps
-   */
-  function buildEntranceTerrace(mat) {
-    // Entrance vestibule floor (elevated by 0.35m at z = 10m)
-    const vestibuleGeo = new THREE.BoxGeometry(7, 0.4, 4.5);
-    const vestibule = new THREE.Mesh(vestibuleGeo, mat.stoneIvory);
-    vestibule.position.set(0, 0.2, 10.5);
-    vestibule.receiveShadow = true;
-    scene.add(vestibule);
-
-    // Curved steps down to main rotunda floor
-    const step1Geo = new THREE.CylinderGeometry(4.2, 4.2, 0.15, 32, 1, false, Math.PI, Math.PI);
-    const step1 = new THREE.Mesh(step1Geo, mat.stone);
-    step1.position.set(0, 0.15, 8.5);
-    scene.add(step1);
-
-    // Curved balustrade railing (Reference image foreground)
-    const railRadius = 5.2;
-    const railCurve = new THREE.EllipseCurve(
-      0, 0,
-      railRadius, railRadius,
-      Math.PI * 0.15, Math.PI * 0.85,
-      false, 0
-    );
-    const railPoints = railCurve.getPoints(24).map(p => new THREE.Vector3(p.x, 0.9, p.y + 3.2));
-    const railCatmull = new THREE.CatmullRomCurve3(railPoints);
-    const railGeo = new THREE.TubeGeometry(railCatmull, 24, 0.08, 8, false);
-    const railing = new THREE.Mesh(railGeo, mat.bronze);
-    scene.add(railing);
-
-    // Balustrade balusters/posts
-    for (let i = 0; i < railPoints.length; i += 3) {
-      const pt = railPoints[i];
-      const postGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.85, 8);
-      const post = new THREE.Mesh(postGeo, mat.bronze);
-      post.position.set(pt.x, 0.45, pt.z);
-      scene.add(post);
     }
   }
 

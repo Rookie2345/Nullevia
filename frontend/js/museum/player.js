@@ -83,7 +83,7 @@ window.MuseumPlayer = (function () {
 
   function onPointerLockChange() {
     isLocked = document.pointerLockElement === (document.getElementById('webgl-canvas') || document.body);
-    const overlay = document.getElementById('click-to-play-overlay');
+    const overlay = document.getElementById('pause-menu-overlay');
     if (overlay) {
       if (isLocked) {
         overlay.classList.add('hidden');
@@ -159,79 +159,97 @@ window.MuseumPlayer = (function () {
 
   /**
    * Constructs the 3D Cybernetic Robotic Hands matching the reference image:
-   * White matte chassis plates, dark mechanical pivot joints,
-   * glowing cyan conduits on knuckles and fingers.
+   * Metallic silver chassis plates, dark graphite carbon joints,
+   * antique bronze wrist details, and glowing cyan circuitry.
    */
   function buildRoboticHands() {
     handsContainer = new THREE.Group();
-    camera.add(handsContainer); // Attach directly to camera so it moves with view
+    camera.add(handsContainer); // Attach directly to camera
 
-    // Shared high-performance materials for Intel HD 520
+    // High-performance PBR materials matching reference_hands.jpg
     const armorMat = new THREE.MeshStandardMaterial({
-      color: 0xeeeeee,
-      roughness: 0.28,
-      metalness: 0.15,
+      color: 0xdce5ed,
+      roughness: 0.22,
+      metalness: 0.75,
     });
 
     const darkJointMat = new THREE.MeshStandardMaterial({
-      color: 0x181c24,
-      roughness: 0.6,
-      metalness: 0.7,
+      color: 0x12151b,
+      roughness: 0.45,
+      metalness: 0.85,
+    });
+
+    const bronzeMat = new THREE.MeshStandardMaterial({
+      color: 0xd4b477,
+      roughness: 0.3,
+      metalness: 0.85,
     });
 
     const cyanConduitMat = new THREE.MeshBasicMaterial({
-      color: 0x69c7d5,
+      color: 0x00f0ff,
     });
 
-    // Create Right Hand & Arm
-    rightArm = createArmModel(armorMat, darkJointMat, cyanConduitMat, false);
-    rightArm.position.set(0.32, -0.28, -0.55);
-    rightArm.rotation.set(-0.25, -0.15, 0.1);
+    // Create Right Hand & Arm (positioned in lower right view)
+    rightArm = createArmModel(armorMat, darkJointMat, bronzeMat, cyanConduitMat, false);
+    rightArm.position.set(0.24, -0.22, -0.42);
+    rightArm.rotation.set(-0.28, -0.18, 0.12);
     handsContainer.add(rightArm);
 
-    // Create Left Hand & Arm
-    leftArm = createArmModel(armorMat, darkJointMat, cyanConduitMat, true);
-    leftArm.position.set(-0.32, -0.28, -0.55);
-    leftArm.rotation.set(-0.25, 0.15, -0.1);
+    // Create Left Hand & Arm (positioned in lower left view)
+    leftArm = createArmModel(armorMat, darkJointMat, bronzeMat, cyanConduitMat, true);
+    leftArm.position.set(-0.24, -0.22, -0.42);
+    leftArm.rotation.set(-0.28, 0.18, -0.12);
     handsContainer.add(leftArm);
   }
 
-  function createArmModel(armorMat, jointMat, glowMat, isLeft) {
+  function createArmModel(armorMat, jointMat, bronzeMat, glowMat, isLeft) {
     const armGroup = new THREE.Group();
     const sign = isLeft ? -1 : 1;
 
     // 1. Forearm Sleeve / Shell
-    const forearmGeo = new THREE.CylinderGeometry(0.065, 0.08, 0.42, 12);
+    const forearmGeo = new THREE.CylinderGeometry(0.062, 0.076, 0.38, 12);
     forearmGeo.rotateX(Math.PI / 2);
     const forearm = new THREE.Mesh(forearmGeo, armorMat);
-    forearm.position.set(0, 0, 0.2);
+    forearm.position.set(0, 0, 0.18);
     armGroup.add(forearm);
 
+    // Forearm Bronze Trim Ring
+    const trimGeo = new THREE.TorusGeometry(0.065, 0.009, 8, 16);
+    const trim = new THREE.Mesh(trimGeo, bronzeMat);
+    trim.position.set(0, 0, 0.16);
+    armGroup.add(trim);
+
+    // Forearm Longitudinal Glowing Cyan Circuit Line
+    const circuitGeo = new THREE.BoxGeometry(0.008, 0.012, 0.28);
+    const circuit = new THREE.Mesh(circuitGeo, glowMat);
+    circuit.position.set(0, 0.062, 0.18);
+    armGroup.add(circuit);
+
     // Wrist Ring / Pivot
-    const wristGeo = new THREE.TorusGeometry(0.068, 0.014, 8, 16);
+    const wristGeo = new THREE.TorusGeometry(0.066, 0.012, 8, 16);
     const wrist = new THREE.Mesh(wristGeo, jointMat);
-    wrist.position.set(0, 0, 0.02);
+    wrist.position.set(0, 0, 0.01);
     armGroup.add(wrist);
 
     // 2. Hand Palm
     const palmGroup = new THREE.Group();
-    const palmGeo = new THREE.BoxGeometry(0.09, 0.035, 0.11);
+    const palmGeo = new THREE.BoxGeometry(0.092, 0.034, 0.115);
     const palm = new THREE.Mesh(palmGeo, armorMat);
     palmGroup.add(palm);
 
-    // Glowing Palm / Knuckle Conduit
-    const conduitGeo = new THREE.BoxGeometry(0.03, 0.015, 0.04);
+    // Glowing Palm Center Core Conduit
+    const conduitGeo = new THREE.BoxGeometry(0.032, 0.016, 0.045);
     const conduit = new THREE.Mesh(conduitGeo, glowMat);
-    conduit.position.set(0, 0.015, -0.01);
+    conduit.position.set(0, 0.016, -0.01);
     palmGroup.add(conduit);
 
     // 3. Five Articulated Fingers
     const fingerPositions = [
-      { x: -0.034 * sign, z: -0.06, len: 0.048, rotZ: 0.08 * sign }, // Index
-      { x: -0.011 * sign, z: -0.065, len: 0.052, rotZ: 0.02 * sign }, // Middle
-      { x: 0.012 * sign, z: -0.062, len: 0.048, rotZ: -0.04 * sign }, // Ring
-      { x: 0.033 * sign, z: -0.055, len: 0.04, rotZ: -0.1 * sign }, // Pinky
-      { x: -0.048 * sign, z: -0.01, len: 0.036, rotZ: 0.45 * sign }, // Thumb
+      { x: -0.034 * sign, z: -0.062, len: 0.052, rotZ: 0.08 * sign }, // Index
+      { x: -0.011 * sign, z: -0.068, len: 0.056, rotZ: 0.02 * sign }, // Middle
+      { x: 0.012 * sign, z: -0.065, len: 0.052, rotZ: -0.04 * sign }, // Ring
+      { x: 0.033 * sign, z: -0.058, len: 0.044, rotZ: -0.1 * sign }, // Pinky
+      { x: -0.048 * sign, z: -0.01, len: 0.038, rotZ: 0.45 * sign }, // Thumb
     ];
 
     fingerPositions.forEach((pos) => {
@@ -239,22 +257,22 @@ window.MuseumPlayer = (function () {
       finger.position.set(pos.x, 0, pos.z);
       finger.rotation.z = pos.rotZ;
 
-      // Knuckle joint
-      const knuckleGeo = new THREE.SphereGeometry(0.011, 8, 8);
+      // Knuckle joint (Dark Graphite)
+      const knuckleGeo = new THREE.SphereGeometry(0.012, 8, 8);
       const knuckle = new THREE.Mesh(knuckleGeo, jointMat);
       finger.add(knuckle);
 
-      // Phalanx
-      const phalanxGeo = new THREE.CylinderGeometry(0.009, 0.01, pos.len, 8);
+      // Phalanx segment (Silver Armor)
+      const phalanxGeo = new THREE.CylinderGeometry(0.009, 0.011, pos.len, 8);
       phalanxGeo.rotateX(Math.PI / 2);
       const phalanx = new THREE.Mesh(phalanxGeo, armorMat);
       phalanx.position.set(0, 0, -pos.len / 2);
       finger.add(phalanx);
 
       // Glowing finger tip/accent
-      const tipGeo = new THREE.BoxGeometry(0.006, 0.006, 0.012);
+      const tipGeo = new THREE.BoxGeometry(0.006, 0.008, 0.014);
       const tip = new THREE.Mesh(tipGeo, glowMat);
-      tip.position.set(0, 0.005, -pos.len);
+      tip.position.set(0, 0.006, -pos.len);
       finger.add(tip);
 
       palmGroup.add(finger);

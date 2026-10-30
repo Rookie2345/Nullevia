@@ -129,11 +129,21 @@ window.MuseumUI = (function () {
       });
     }
 
-    // Enter 3D Click-to-Play Overlay
-    const overlay = document.getElementById('click-to-play-overlay');
-    if (overlay) {
-      overlay.addEventListener('click', () => {
+    // Resume Exploration Button
+    const resumeBtn = document.getElementById('btn-resume-exploration');
+    if (resumeBtn) {
+      resumeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         window.MuseumPlayer.requestLock();
+      });
+    }
+
+    // Exit to Lobby Button
+    const exitBtn = document.getElementById('btn-exit-lobby');
+    if (exitBtn) {
+      exitBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Allow default link navigation to index.html without re-capturing cursor
       });
     }
   }

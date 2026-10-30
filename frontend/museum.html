@@ -68,30 +68,36 @@
     </footer>
   </div>
 
-  <!-- Start / Pause Click-to-Play Modal Overlay -->
-  <div id="click-to-play-overlay">
-    <div class="play-modal">
-      <h1>NULLE<span>VIA</span></h1>
-      <p class="play-tagline">Central Grand Hall &bull; Virtual Exploration</p>
+  <!-- Start / Pause Menu Modal Overlay -->
+  <div id="pause-menu-overlay" class="pause-menu-overlay">
+    <div class="pause-modal-card">
+      <div class="pause-brand-badge">NULLE<span class="gold">VIA</span> ARCHIVE</div>
+      <h2 id="pause-modal-title">Central Grand Hall</h2>
+      <p id="pause-modal-sub" class="pause-subtext">Click Resume or press ESC to explore</p>
       
-      <div class="play-instructions">
-        <div>
-          <strong>Controls</strong>
-          <p><kbd>W A S D</kbd> — Walk around</p>
-          <p><kbd>Shift</kbd> — Sprint</p>
-          <p><kbd>Mouse</kbd> — Camera view</p>
+      <div class="pause-controls-summary">
+        <div class="ctrl-group">
+          <strong>Movement</strong>
+          <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Walk</span>
+          <span><kbd>Shift</kbd> Sprint</span>
+          <span><kbd>Mouse</kbd> Look Around</span>
         </div>
-        <div>
-          <strong>Exhibition</strong>
-          <p><kbd>E</kbd> — Inspect artifacts</p>
-          <p><kbd>ESC</kbd> — Pause / Menu</p>
-          <p>Visible 3D Robotic Hands</p>
+        <div class="ctrl-group">
+          <strong>Museum Archive</strong>
+          <span><kbd>E</kbd> Inspect Specimen</span>
+          <span><kbd>ESC</kbd> Pause Menu</span>
+          <span>Cybernetic 3D Hands</span>
         </div>
       </div>
 
-      <button class="btn-enter-3d">
-        Click Anywhere to Enter Hall
-      </button>
+      <div class="pause-actions-stack">
+        <button id="btn-resume-exploration" class="btn-pause-primary">
+          Resume Exploration
+        </button>
+        <a href="index.html" id="btn-exit-lobby" class="btn-pause-secondary">
+          &larr; Return to Museum Lobby
+        </a>
+      </div>
     </div>
   </div>
 
